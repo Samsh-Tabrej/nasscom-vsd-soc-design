@@ -66,3 +66,45 @@ Digital Standard Cell Libraries for logic functions, and I/O Libraries for inter
 OpenLANE is an open-source ASIC design flow that provides a comprehensive toolchain for digital design, from RTL to GDSII, supporting custom chip development. It integrates several EDA tools for synthesis, placement, routing, and verification. It is a tape-out-hardened flow that addresses two main use cases: hardening a macro and integrating a System-on-a-Chip (SoC). It was used successfully to tape out a family of RISC-V based SoCs known as “striVe”.<br/>
 ![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/striVe.png)
 StriVe chipsets are customizable, energy-efficient processors designed for specialized applications, focusing on low-power and high-performance computing. They leverage open-source frameworks like OpenLane to enable rapid prototyping and development of ASICs.
+
+# Inception of open-source EDA, OpenLANE and Sky130 PDK
+# The openlane directory structure
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/openlane_dir.png)
+We have to run the picorv32a design synthesis using openLANE flow and generate design statistics and synthesis reports.
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/picorv32a_dir.png)
+<br/>
+To invoke openLANE flow and perform the synthesis we use the following commands inside openlane folder in terminal:<br/>
+To invoke openLANE flow
+```
+docker
+```
+To run the flow in interactive (step-by-step) mode
+```
+./flow.tcl -interactive
+```
+Import required packages
+```
+% package require openlane 0.9
+```
+To prepare the picorv32a design and setup necessary folders and files for synthesis
+```
+% prep -design picorv32a
+```
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/openlane_docker.png)
+After running the preparation step, a new directory with modified date as name is created inside 'runs' directory. This directory contains all the necessary files and subdirectories required for storing the synthesis reports and outputs.
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/design_prep_runs.png)
+<br/>
+Ater this, to run the synthesis:
+```
+run_synthesis
+```
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/synthesis_run.png)
+Type ```exit``` to exit from the openLANE flow.<br/><br/>
+After this, we can check the synthesis results and statistics & timing reports from the previously created directory itself.
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/syn_report.png)
+<br/>Inside 1-yosys_4.stat.rpt, the synthesis statistics report is stored.<br/>
+From this we can calculate the flop ratio:<br/>
+Flop ratio = (Total no. of D-FFs)/(Total no. of cells)
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/dff_ratio.png)
+From the statistics report we get flop ratio as: 1613/14876 = 0.108429685<br/>
+Hence, the percentage of D-FFs are 10.84%<br/>

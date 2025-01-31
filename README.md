@@ -108,3 +108,5 @@ Flop ratio = (Total no. of D-FFs)/(Total no. of cells)
 ![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/dff_ratio.png)
 From the statistics report we get flop ratio as: 1613/14876 = 0.108429685<br/>
 Hence, the percentage of D-FFs are 10.84%<br/>
+
+# Chip Floor planning considerations

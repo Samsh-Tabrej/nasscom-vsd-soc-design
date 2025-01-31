@@ -110,18 +110,18 @@ Hence, the percentage of D-FFs are 10.84%<br/>
 
 # Good floorplan vs bad floorplan and introduction to library cells
 ![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/w_h_core.png)
-Utilization Factor and Aspect Ratio<br/>
+Utilization Factor and Aspect Ratio:<br/>
 To determine the Utilization Factor and Aspect Ratio, it is essential to first define the height and width of both the core and die areas.<br/>
 The core area refers to the region within a chip that accommodates all the logic cells and circuit components. This is where the primary logic operations take place.<br/>
 The die area, on the other hand, encompasses the core and serves as the space for placing I/O components and connections.<br/>
-The dimensions of the core area are determined by the netlist of the design, which specifies the number of components required to implement the logic. Consequently, the height and width of the die area are dictated by the dimensions of the core area.<br/>
+The dimensions of the core area are determined by the netlist of the design, which specifies the number of components required to implement the logic. Consequently, the height and width of the die area are dictated by the dimensions of the core area.<br/><br/>
 For instance, consider a netlist consisting of two logic gates and two flip-flops, each occupying an area of 1 square unit. Since the netlist includes a total of four elements, the minimum core area required to accommodate these components would be 4 square units.<br/>
 ![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/eg_netlist.png) ![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/w_h_netlist.png)
-Utilization Factor <br/>
+Utilization Factor: <br/>
 The Utilization Factor is the ratio of the area occupied by the netlist to the total available core area. For an optimized FloorPlan, the Utilization Factor should be less than 1. If it reaches 1, there won’t be any extra space for adding additional logic, making the FloorPlan 100% utilized. <br/>
 Utilization Factor = Area occupied by netlist / Total core area <br/>
 
-Aspect Ratio <br/>
+Aspect Ratio: <br/>
 The Aspect Ratio represents the proportion between the height and width of the core. A core with an aspect ratio of 1 forms a square, whereas any other value results in a rectangular shape.<br/>
 Aspect Ratio = Height of the core / Width of the core<br/>
 ![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/min_area_netlist.png)
@@ -132,3 +132,7 @@ Hence, the core area is 100% utilized by the netlist.<br/>
 Aspect Rtio = (2 unit)/(2 unit) = 1<br/>
 Hence, the core has a square shape.<br/>
 ​
+Now, after adding pre-placed cells, decoupling capacitors, power planning and pin placement the corresponding floorplan will look like:<br/>
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/fp_concepts.png)
+
+# Running Floorplan using OpenLANE

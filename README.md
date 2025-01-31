@@ -1,5 +1,5 @@
 # Digital VLSI SoC Design and Planning
-Welcome to the OpenLane workshop organized by VSD in collaboration with NASSCOM! In this session, we will explore the complete process of designing an Application-Specific Integrated Circuit (ASIC) using the OpenLane ASIC flow. Starting from the Register Transfer Level (RTL) design, we will progress through various key stages to ultimately generate a Graphical Data System (GDS) file.
+Welcome to the OpenLANE workshop organized by VSD in collaboration with NASSCOM! In this session, we will explore the complete process of designing an Application-Specific Integrated Circuit (ASIC) using the OpenLane ASIC flow. Starting from the Register Transfer Level (RTL) design, we will progress through various key stages to ultimately generate a Graphical Data System (GDS) file.
 
 # Curriculum
 - Introduction to open-source EDA tools and 130nm PDKs <br/>
@@ -11,8 +11,7 @@ Welcome to the OpenLane workshop organized by VSD in collaboration with NASSCOM!
 # Breakdown of QFN-48 Chip, Pads, Core, Die, Macros & IPs
 - QFN-48 Package<br/>
 The QFN-48 (Quad Flat No-lead, 48-pin) package is a compact, surface-mount IC package designed for high-performance applications with efficient thermal dissipation and low parasitic effects. It features 48 connection pads around its edges and a central exposed pad for improved heat dissipation, making it ideal for space-constrained designs.<br/>
-![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/arduino%20chip.png)
-![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/package.png)
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/arduino%20chip.png) ![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/package.png)
 - Core <br/>
 The core is the central region of the chip where the main logic components are placed. It houses combinational circuits, standard cells, hard and soft IPs, and interconnections that define the chip’s functionality.
 - Die <br/>
@@ -109,4 +108,27 @@ Flop ratio = (Total no. of D-FFs)/(Total no. of cells)
 From the statistics report we get flop ratio as: 1613/14876 = 0.108429685<br/>
 Hence, the percentage of D-FFs are 10.84%<br/>
 
-# Chip Floor planning considerations
+# Good floorplan vs bad floorplan and introduction to library cells
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/w_h_core.png)
+Utilization Factor and Aspect Ratio<br/>
+To determine the Utilization Factor and Aspect Ratio, it is essential to first define the height and width of both the core and die areas.<br/>
+The core area refers to the region within a chip that accommodates all the logic cells and circuit components. This is where the primary logic operations take place.<br/>
+The die area, on the other hand, encompasses the core and serves as the space for placing I/O components and connections.<br/>
+The dimensions of the core area are determined by the netlist of the design, which specifies the number of components required to implement the logic. Consequently, the height and width of the die area are dictated by the dimensions of the core area.<br/>
+For instance, consider a netlist consisting of two logic gates and two flip-flops, each occupying an area of 1 square unit. Since the netlist includes a total of four elements, the minimum core area required to accommodate these components would be 4 square units.<br/>
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/eg_netlist.png) ![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/w_h_netlist.png)
+Utilization Factor <br/>
+The Utilization Factor is the ratio of the area occupied by the netlist to the total available core area. For an optimized FloorPlan, the Utilization Factor should be less than 1. If it reaches 1, there won’t be any extra space for adding additional logic, making the FloorPlan 100% utilized. <br/>
+Utilization Factor = Area occupied by netlist / Total core area <br/>
+
+Aspect Ratio <br/>
+The Aspect Ratio represents the proportion between the height and width of the core. A core with an aspect ratio of 1 forms a square, whereas any other value results in a rectangular shape.<br/>
+Aspect Ratio = Height of the core / Width of the core<br/>
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/min_area_netlist.png)
+
+In this case,<br/>
+Utilization Factor = (4 x 1 sq. unit)/(2 unit x 2 unit) = 1<br/>
+Hence, the core area is 100% utilized by the netlist.<br/>
+Aspect Rtio = (2 unit)/(2 unit) = 1<br/>
+Hence, the core has a square shape.<br/>
+​

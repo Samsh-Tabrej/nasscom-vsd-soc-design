@@ -136,27 +136,27 @@ Hence, the core has a square shape.<br/>
 ![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/fp_concepts.png)
 
 # Running Floorplan using OpenLANE
-After running Synthesis, now it's time to run Floorplan. To run floorplan:
+After running Synthesis, now it's time to run the Floorplan. To run floorplan in openLANE flow:
 ```
 run_floorplan
 ```
 ![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/fp_run.png)
-<br/>When navigating though results/floorplan/ directory, we get a 'def' file, which includes many informations such as die area.
+<br/><br/>When navigating though results/floorplan/ directory, we get a 'def' file, which includes many informations such as die area.
 ![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/fp_diearea.png)
-<br/>To visualize the floorplan design using a GUI, we use MAGIC tool.
+<br/><br/>To visualize the floorplan design using a GUI, we use MAGIC tool.
 ![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/fp_dir.png)
-<br/>The picorv32a floorplan layout in Magic:
+<br/><br/>The picorv32a floorplan layout in Magic:
 ![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/magic_fp.png)
 Magic tool Guidelines:<br/>
-Centering the Design:<br/>
-- Press S to select the entire design.
-- Press V to align it to the center of the screen.
-To zoom a Specific Area:<br/>
+Centering the Design:
+- Press ```S``` to select the entire design.
+- Press ```V``` to align it to the center of the screen.
+<br/>To zoom a Specific Area:
 - Left-click and drag to highlight the desired region.
 - Right-click to open the context.
-- Press Z to zoom in on the selected section.
-Viewing Cell Details:<br/>
+- Press ```Z``` to zoom in on the selected section.
+<br/>Viewing Cell Details:
 - Hover over the cell you want to inspect.
-- Press S to select the cell.
-- In the tkcon window, type "what" to display detailed information about the cell.
+- Press ```S``` to select the cell.
+- In the 'tkcon' window, type ```what``` to display detailed information about the cell.
 ![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/tkcon_fp.png)

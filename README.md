@@ -211,7 +211,7 @@ In the placement process, each sigle cell (eg. Inverter) from the library has sp
 Timing characterization in VLSI design refers to the process of analyzing and modeling the behavior of a standard cell or a circuit concerning signal propagation delays, transition times (slew), and setup/hold constraints. It helps in generating timing libraries (e.g., Liberty .lib files) used for Static Timing Analysis (STA).
 
 <br/>Key Timing Parameters:<br/>
-- Timing Threshold: These are predefined voltage levels (expressed as a percentage of supply voltage, VDD) used to measure delays and transitions in a digital circuit. Common thresholds include 10%, 50%, and 90% of VDD.
+- Timing Threshold: These are predefined voltage levels (expressed as a percentage of supply voltage, VDD) used to measure delays and transitions in a digital circuit.
 - Propagation Delay: The time it takes for a signal transition to travel from the input to the output of a gate. It is measured between the same voltage thresholds on input and output, typically from 50% of input swing to 50% of output swing.
 - Slew Rate (Transition Time): The time taken for a signal to transition between two voltage thresholds.
 - Slew Low Rise Threshold (slew_low_rise_thr): The lower voltage threshold used to measure the rise transition time (e.g., 20% of VDD).

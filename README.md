@@ -149,15 +149,77 @@ run_floorplan
 <br/><br/>The picorv32a floorplan layout in Magic:
 ![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/magic_fp.png)
 Magic tool Guidelines:<br/>
->> Centering the Design:
+> Centering the Design:
 - Press ```S``` to select the entire design.
 - Press ```V``` to align it to the center of the screen.<br/>
->> To zoom a Specific Area:
+> To zoom a Specific Area:
 - Left-click and drag to highlight the desired region.
 - Right-click to open the context.
 - Press ```Z``` to zoom in on the selected section.<br/>
->> Viewing Cell Details:
+> Viewing Cell Details:
 - Hover over the cell you want to inspect.
 - Press ```S``` to select the cell.
 - In the 'tkcon' window, type ```what``` to display detailed information about the cell.
 ![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/tkcon_fp.png)
+
+# Running Placement using OpenLANE
+Placement in VLSI (Very Large Scale Integration) refers to the process of assigning the physical locations of standard cells, macros, and IP blocks within a chip’s layout while optimizing for performance, power, and area (PPA). It occurs after logic synthesis and before routing in the backend design flow. 
+<br/>Placement can be categorized into global placement, which provides an initial distribution of cells to minimize wirelength and congestion, and detailed placement, which fine-tunes cell positions while adhering to design rules, avoiding overlaps, and optimizing timing. Advanced techniques like analytical, partitioning-based, and simulated annealing methods are used to enhance placement efficiency in modern chip designs.<br/><br/>
+After doing floorplan of desired utilization factor and aspect ratio, now its time to place the specific netlist on the core of the chip. This must be done by keeping mind, the IO pins, the interconnects, and keeping the standard cells as close as possible to reduce the timimg delays due to larger wire lengths. At places where distance between two standard cells or a standard cell and IO pin is relatively larger, we have to add buffers to minimize the wire length.
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/wiring_plcmt.png)
+<br/>
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/detailed_plcmt.png)
+<br/>
+To run the placement in OpenLANE flow:
+```
+run_placement
+```
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/plcmt_run.png)
+<br/>
+To visualize the placement in Magic tool: ```magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read picorv32a.placement.def &```
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/magic_plcmt.png) ![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/zoomed_plcmt.png)
+<br/>
+In the placement process, each sigle cell (eg. Inverter) from the library has specific design flow that are classified into three different parts:<br/>
+> Inputs
+- PDKs
+- DRC and LVS rules
+- SPICE models
+- Library & User-defined specs
+> Design Steps
+- Circuit design
+- Layout Design
+- Characterization using GUNA
+> Outputs
+- CDL (Circuit Description Language)
+- GDSII
+- LEF (Library Exchange Format)
+- SPICE extracted netlist
+- Timing, Noise, and Power Libraries
+
+<br/>Typical Characterization flow for a CMOS inverter circuit:
+1. Reading model files (eg. PMOS or NMOS models).
+2. Read extracted SPICE netlist.
+3. Recognize the behaviour of the buffer.
+4. Read sub-circuits of the inverter.
+5. Attach necessary power sources.
+6. Apply the stimulus to the characterization setup.
+7. Provide necessary output load capacitance.
+8. Provide necessary simulation command (eg., .tran or .dc).
+9. Feed in the configuration file to GUNA software which will generate the timing, noise, power, .libs, etc models.
+
+<br/>Timing Characterization in VLSI Design:<br/>
+Timing characterization in VLSI design refers to the process of analyzing and modeling the behavior of a standard cell or a circuit concerning signal propagation delays, transition times (slew), and setup/hold constraints. It helps in generating timing libraries (e.g., Liberty .lib files) used for Static Timing Analysis (STA).
+
+<br/>Key Timing Parameters:<br/>
+- Timing Threshold: These are predefined voltage levels (expressed as a percentage of supply voltage, VDD) used to measure delays and transitions in a digital circuit. Common thresholds include 10%, 50%, and 90% of VDD.
+- Propagation Delay: The time it takes for a signal transition to travel from the input to the output of a gate. It is measured between the same voltage thresholds on input and output, typically from 50% of input swing to 50% of output swing.
+- Slew Rate (Transition Time): The time taken for a signal to transition between two voltage thresholds.
+- Slew Low Rise Threshold (slew_low_rise_thr): The lower voltage threshold used to measure the rise transition time (e.g., 20% of VDD).
+- Slew High Rise Threshold (slew_high_rise_thr): The upper voltage threshold for rise time measurement (e.g., 80% of VDD).
+- Slew Low Fall Threshold (slew_low_fall_thr): The lower voltage threshold for fall time measurement (e.g., 20% of VDD).
+- Slew High Fall Threshold (slew_high_fall_thr): The upper voltage threshold for fall time measurement (e.g., 80% of VDD).
+- Input Rise Threshold (in_rise_thr): The voltage threshold used to measure rising transitions at the input.
+- Input Low Threshold (in_low_thr): The voltage threshold used to measure falling transitions at the input.
+- Output Rise Threshold (out_rise_thr): The voltage threshold used to measure rising transitions at the output.
+- Output Low Threshold (out_low_thr): The voltage threshold used to measure falling transitions at the output.
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/timing_slew.png)

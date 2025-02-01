@@ -61,7 +61,7 @@ Design Rules for fabrication, which help ensure the layout complies with manufac
 Device Models to simulate the behavior of various components.<br/>
 Digital Standard Cell Libraries for logic functions, and I/O Libraries for interfacing with external systems. These elements guide the design and ensure that the resulting ASIC can be manufactured reliably.<br/>
 
-# Introduction to Openlane and StriVe chipsets
+# Introduction to OpenlANE and StriVe chipsets
 OpenLANE is an open-source ASIC design flow that provides a comprehensive toolchain for digital design, from RTL to GDSII, supporting custom chip development. It integrates several EDA tools for synthesis, placement, routing, and verification. It is a tape-out-hardened flow that addresses two main use cases: hardening a macro and integrating a System-on-a-Chip (SoC). It was used successfully to tape out a family of RISC-V based SoCs known as “striVe”.<br/>
 ![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/striVe.png)
 StriVe chipsets are customizable, energy-efficient processors designed for specialized applications, focusing on low-power and high-performance computing. They leverage open-source frameworks like OpenLane to enable rapid prototyping and development of ASICs.
@@ -132,7 +132,31 @@ Hence, the core area is 100% utilized by the netlist.<br/>
 Aspect Rtio = (2 unit)/(2 unit) = 1<br/>
 Hence, the core has a square shape.<br/>
 ​
-Now, after adding pre-placed cells, decoupling capacitors, power planning and pin placement the corresponding floorplan will look like:<br/>
+<br/>Now, after adding pre-placed cells, decoupling capacitors, power planning and pin placement the corresponding floorplan will look like:<br/>
 ![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/fp_concepts.png)
 
 # Running Floorplan using OpenLANE
+After running Synthesis, now it's time to run Floorplan. To run floorplan:
+```
+run_floorplan
+```
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/fp_run.png)
+<br/>When navigating though results/floorplan/ directory, we get a 'def' file, which includes many informations such as die area.
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/fp_diearea.png)
+<br/>To visualize the floorplan design using a GUI, we use MAGIC tool.
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/fp_dir.png)
+<br/>The picorv32a floorplan layout in Magic:
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/magic_fp.png)
+Magic tool Guidelines:<br/>
+Centering the Design:<br/>
+- Press S to select the entire design.
+- Press V to align it to the center of the screen.
+To zoom a Specific Area:<br/>
+- Left-click and drag to highlight the desired region.
+- Right-click to open the context.
+- Press Z to zoom in on the selected section.
+Viewing Cell Details:<br/>
+- Hover over the cell you want to inspect.
+- Press S to select the cell.
+- In the tkcon window, type "what" to display detailed information about the cell.
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/tkcon_fp.png)

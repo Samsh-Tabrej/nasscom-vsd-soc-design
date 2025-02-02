@@ -431,7 +431,7 @@ tap_decap_or
 <br/>Command to load the placement def in magic tool:
 ```magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read picorv32a.placement.def &```
 <br/><br/>Screenshot of the placement implementation in Magic:<br/><br/>
-![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/magic_plcmt.png)
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/magic_plcmt_NEW.png)
 <br/><br/>Screenshot of the custom inverter successfully inserted in the placement<br/><br/>
 ![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/inv_in_plcmt.png)
 <br/><br/>To view the internal connections:<br/><br/>

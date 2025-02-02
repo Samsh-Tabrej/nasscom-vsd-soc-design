@@ -226,8 +226,10 @@ Timing characterization in VLSI design refers to the process of analyzing and mo
 
 # Design library cell using Magic Layout and ngspice characterization
 Let us clone a custom inverter standard cell from a github repository and explore its layout in Magic.<br/><br/>
-#clone the repo inside openlane directory ```git clone https://github.com/nickson-jose/vsdstdcelldesign```<br/><br/>.
+#clone the repo inside openlane directory ```git clone https://github.com/nickson-jose/vsdstdcelldesign```<br/><br/>
 #copy the path of sky130.tech file into the vsdstdcelldesign directory ```cp sky130A.tech /home/vsduser/Desktop/work/tools/openlane_working_dir/openlane/vsdstdcelldesign```<br/><br/>
 #Open the layout in Magic ```magic -T sky130A.tech sky130_inv.mag &```<br/><br/>
+Screenshot of above commands in terminal.
 ![Screenshot of above commands in terminal](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/inv_git_clone.png)
+<br/>Layout of custom CMOS inverter in Magic.
 ![Layout of custom CMOS inverter in Magic](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/magic_inv.png)

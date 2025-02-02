@@ -67,6 +67,7 @@ OpenLANE is an open-source ASIC design flow that provides a comprehensive toolch
 StriVe chipsets are customizable, energy-efficient processors designed for specialized applications, focusing on low-power and high-performance computing. They leverage open-source frameworks like OpenLane to enable rapid prototyping and development of ASICs.
 
 # Inception of open-source EDA, OpenLANE and Sky130 PDK
+# DAY-1 LAB
 # The openlane directory structure
 ![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/openlane_dir.png)
 We have to run the picorv32a design synthesis using openLANE flow and generate design statistics and synthesis reports.
@@ -135,6 +136,7 @@ Hence, the core has a square shape.<br/>
 <br/>Now, after adding pre-placed cells, decoupling capacitors, power planning and pin placement the corresponding floorplan will look like:<br/>
 ![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/fp_concepts.png)
 
+# DAY-2 LAB
 # Running Floorplan using OpenLANE
 After running Synthesis, now it's time to run the Floorplan. To run floorplan in openLANE flow:
 ```
@@ -224,6 +226,7 @@ Timing characterization in VLSI design refers to the process of analyzing and mo
 - Output Low Threshold (out_low_thr): The voltage threshold used to measure falling transitions at the output.
 ![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/timing_slew.png)
 
+# DAY-3 LAB
 # Design library cell using Magic Layout and ngspice characterization
 Let us clone a custom inverter standard cell from a github repository and explore its layout in Magic.<br/><br/>
 #clone the repo inside openlane directory ```git clone https://github.com/nickson-jose/vsdstdcelldesign```<br/><br/>
@@ -344,7 +347,7 @@ Change directory to vsdstdcelldesign:
 
 <br/>Command to open custom inverter layout in magic
 ```magic -T sky130A.tech sky130_inv.mag &```
-<br/>Screenshot of tracks.info of sky130_fd_sc_hd:
+<br/>Screenshot of tracks.info of sky130_fd_sc_hd:<br/><br/>
 ![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/tracks_info.png)
 <br/>Commands for tkcon window to set grid as tracks of locali layer
 <br/>Get syntax for grid command ```help grid```
@@ -354,22 +357,20 @@ Change directory to vsdstdcelldesign:
 <br/>Condition 1: The input and output ports of the standard cell should lie on the intersection of the vertical and horizontal tracks.
 <br/>Condition 2: Width of the standard cell should be odd multiples of the horizontal track pitch.
 <br/>Condition 3: Height of the standard cell should be even multiples of the vertical track pitch.
-<br/>Save the custom inverter layout: ```save sky130_vsdinv.mag```<br/>
+<br/>Save the custom inverter layout: ```save sky130_vsdinv.mag```<br/><br/>
 ![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/grid_save_magic.png)
-<br/>Command to open the newly saved custom inverter layout in magic: ```magic -T sky130A.tech sky130_vsdinv.mag &```<br/>
+<br/>Command to open the newly saved custom inverter layout in magic: ```magic -T sky130A.tech sky130_vsdinv.mag &```<br/><br/>
 ![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/magic_new_inv.png)
-<br/>Now generate the lef file from Layout
-<br/>Command for tkcon window to write lef: ```lef write```<br/>
+<br/>Now generate the lef file from Layout.
+<br/>Command for tkcon window to write lef: ```lef write```<br/><br/><br/>
 ![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/write_lef.png)
-<br/><br/>The screenshot of the generated lef file is shown below:<br/>
+<br/><br/>The screenshot of the generated lef file is shown below:<br/><br/>
 ![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/lef_inv.png)
 
 <br/>Now, Copy the newly generated lef and associated required lib files to 'picorv32a' design 'src' directory.
 <br/>Commands to copy necessary files to 'picorv32a' design 'src' directory
 <br/>Copy lef file: ```cp sky130_vsdinv.lef ~/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/src/```
-<br/>List and check whether it's copied: ```ls ~/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/src/```
-<br/>Copy lib files: ```cp libs/sky130_fd_sc_hd__* ~/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/src/```
-<br/>List and check whether it's copied: ```ls ~/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/src/```<br/><br/>
+<br/>Copy lib files: ```cp libs/sky130_fd_sc_hd__* ~/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/src/```<br/><br/>
 ![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/copy_files.png)
 ![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/picorv_src_new.png)
 
@@ -388,7 +389,7 @@ set ::env(EXTRA_LEFS) [glob $::env(OPENLANE_ROOT)/designs/$::env(DESIGN_NAME)/sr
 <br/>inside openlane 0.9: ```%prep -design picorv32a -tag 31-01_17-10 -overwrite```
 <br/>Additional commands to include newly added lef to openlane flow:
 <br/>```set lefs [glob $::env(DESIGN_DIR)/src/*.lef]```
-<br/>```add_lefs -src $lefs```<br/>
+<br/>```add_lefs -src $lefs```<br/><br/>
 ![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/new_docker.png)
 <br/><br/>Now the design is ready for synthesis: ```run_synthesis```<br/><br/>
 ![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/new_syn_run.png)
@@ -423,18 +424,18 @@ init_floorplan
 place_io
 tap_decap_or
 ```
-<br/>
+<br/><br/>
 ![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/new_fp.png)
-<br/><br/>Now we'll run placement: ```run_placement```<br/>
+<br/><br/>Now we'll run placement: ```run_placement```<br/><br/>
 ![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/plcmt_new.png)
 <br/><br/>To view placement in Magic tool:
 <br/>Change directory to path containing generated placement def:
 ```cd Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/31-01_17-10/results/placement/```
 <br/>Command to load the placement def in magic tool:
 ```magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read picorv32a.placement.def &```
-<br/><br/>Screenshot of the placement implementation in Magic:<br/>
+<br/><br/>Screenshot of the placement implementation in Magic:<br/><br/>
 ![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/magic_plcmt.png)
-<br/><br/>Screenshot of the custom inverter successfully inserted in the placement<br/>
+<br/><br/>Screenshot of the custom inverter successfully inserted in the placement<br/><br/>
 ![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/inv_in_plcmt.png)
-<br/><br/>To view the internal connections:<br/>
+<br/><br/>To view the internal connections:<br/><br/>
 ![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/expand_inv_plcmt.png)

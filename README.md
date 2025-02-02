@@ -349,3 +349,92 @@ Change directory to vsdstdcelldesign:
 <br/>Commands for tkcon window to set grid as tracks of locali layer
 <br/>Get syntax for grid command ```help grid```
 <br/>Set grid values accordingly ```grid 0.46um 0.34um 0.23um 0.17um```
+
+<br/>Once the three conditions are verified, i.e.,
+<br/>Condition 1: The input and output ports of the standard cell should lie on the intersection of the vertical and horizontal tracks.
+<br/>Condition 2: Width of the standard cell should be odd multiples of the horizontal track pitch.
+<br/>Condition 3: Height of the standard cell should be even multiples of the vertical track pitch.
+<br/>Save the custom inverter layout: ```save sky130_vsdinv.mag```<br/>
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/grid_save_magic.png)
+<br/>Command to open the newly saved custom inverter layout in magic: ```magic -T sky130A.tech sky130_vsdinv.mag &```<br/>
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/magic_new_inv.png)
+<br/>Now generate the lef file from Layout
+<br/>Command for tkcon window to write lef: ```lef write```<br/>
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/write_lef.png)
+<br/><br/>The screenshot of the generated lef file is shown below:<br/>
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/lef_inv.png)
+
+<br/>Now, Copy the newly generated lef and associated required lib files to 'picorv32a' design 'src' directory.
+<br/>Commands to copy necessary files to 'picorv32a' design 'src' directory
+<br/>Copy lef file: ```cp sky130_vsdinv.lef ~/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/src/```
+<br/>List and check whether it's copied: ```ls ~/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/src/```
+<br/>Copy lib files: ```cp libs/sky130_fd_sc_hd__* ~/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/src/```
+<br/>List and check whether it's copied: ```ls ~/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/src/```<br/><br/>
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/copy_files.png)
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/picorv_src_new.png)
+
+<br/>Now, modify the config.tcl file as below, adding the fast, slow and typical libraries:
+```
+set ::env(LIB_SYNTH) "$::env(OPENLANE_ROOT)/designs/picorv32a/src/sky130_fd_sc_hd__typical.lib"
+set ::env(LIB_FASTEST) "$::env(OPENLANE_ROOT)/designs/picorv32a/src/sky130_fd_sc_hd__fast.lib"
+set ::env(LIB_SLOWEST) "$::env(OPENLANE_ROOT)/designs/picorv32a/src/sky130_fd_sc_hd__slow.lib" 
+set ::env(LIB_TYPICAL) "$::env(OPENLANE_ROOT)/designs/picorv32a/src/sky130_fd_sc_hd__typical.lib"
+set ::env(EXTRA_LEFS) [glob $::env(OPENLANE_ROOT)/designs/$::env(DESIGN_NAME)/src/*.lef]
+```
+<br/><br/>
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/new_config.png)
+
+<br/>Run openlane flow synthesis with newly inserted custom inverter cell.
+<br/>inside openlane 0.9: ```%prep -design picorv32a -tag 31-01_17-10 -overwrite```
+<br/>Additional commands to include newly added lef to openlane flow:
+<br/>```set lefs [glob $::env(DESIGN_DIR)/src/*.lef]```
+<br/>```add_lefs -src $lefs```<br/>
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/new_docker.png)
+<br/><br/>Now the design is ready for synthesis: ```run_synthesis```<br/><br/>
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/new_syn_run.png)
+<br/><br/>Commands to view and change parameters to improve timing and run synthesis:
+```
+# Command to display current value of variable SYNTH_STRATEGY
+echo $::env(SYNTH_STRATEGY)
+
+# Command to set new value for SYNTH_STRATEGY
+set ::env(SYNTH_STRATEGY) 1
+
+# Command to display current value of variable SYNTH_BUFFERING to check whether it's enabled
+echo $::env(SYNTH_BUFFERING)
+
+# Command to display current value of variable SYNTH_SIZING
+echo $::env(SYNTH_SIZING)
+
+# Command to set new value for SYNTH_SIZING
+set ::env(SYNTH_SIZING) 1
+
+# Command to display current value of variable SYNTH_DRIVING_CELL to check whether it's the proper cell or not
+echo $::env(SYNTH_DRIVING_CELL)
+
+# Now that the design is prepped and ready, we can run synthesis using following command
+run_synthesis
+```
+<br/><br/>Now, run the floorplan ```run_floorplan```<br/>
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/fp_failed.png)
+<br/><br/>As in above case the floorplan is failed to execute, run the following command to succesfully run floorplan:
+```
+init_floorplan
+place_io
+tap_decap_or
+```
+<br/>
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/new_fp.png)
+<br/><br/>Now we'll run placement: ```run_placement```<br/>
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/plcmt_new.png)
+<br/><br/>To view placement in Magic tool:
+<br/>Change directory to path containing generated placement def:
+```cd Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/31-01_17-10/results/placement/```
+<br/>Command to load the placement def in magic tool:
+```magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read picorv32a.placement.def &```
+<br/><br/>Screenshot of the placement implementation in Magic:<br/>
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/magic_plcmt.png)
+<br/><br/>Screenshot of the custom inverter successfully inserted in the placement<br/>
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/inv_in_plcmt.png)
+<br/><br/>To view the internal connections:<br/>
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/expand_inv_plcmt.png)

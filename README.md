@@ -269,3 +269,28 @@ Using data points:<br/>
 x0 = 4.078e-09, y0 = 1.65007<br/>
 x1 = 4.05e-09, y1 = 1.65007<br/>
 Cell fall delay = x1 - x0 = 0.028 ns<br/>
+
+# Fixing DRC errors in the Layout geometries
+<br/>Commands to download and view the magic tech file and associated files to perform DRC corrections:<br/><br/>
+Move to home directory: ```cd```<br/><br/>
+Download the lab files: ```wget http://opencircuitdesign.com/open_pdks/archive/drc_tests.tgz```<br/><br/>
+Extract the compressed file: ```tar xfz drc_tests.tgz```<br/><br/>
+List all the files and directories in it: ```ls -al```<br/><br/>
+Open the .magicrc file in vim: ```vi .magicrc```<br/><br/>
+Command to open magic tool in better graphics: ```magic -d XR```<br/><br/>
+
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/runn_magic.png)
+<br/>Screenshot of .magicrc file:<br/>
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/magicrc_file.png)
+<br/><br/>Opening metal-3 mag file to view the drc errors:<br/>
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/m3_mag_file.png)
+<br/><br/>Import poly .mag file to check drc errors and fix them:<br/>
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/poly_mag.png)
+<br/><br/>As zooming into the poly.9 and creating a box, we can see the errors and edit the sky130A.tech file to fix it. 
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/poly_box.png)
+
+<br/><br/>By adding allpolynonres into the specified locations in the sky130A tech file, we can fix it.<br/>
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/poly_vim_1.png)
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/poly_vim_2.png)
+<br/><br/>Checking the poly mag file:<br/>
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/poly_check.png)

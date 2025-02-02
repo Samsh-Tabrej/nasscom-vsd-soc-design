@@ -298,6 +298,21 @@ Re-running DRC check to see updated DRC errors: ```drc check```<br/>
 Select the space, and getting the error messages ```drc why```<br/>
 <br/><br/>Checking the poly mag file:<br/>
 ![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/poly_check.png)
+<br/><br/>Incorrectly implemented 'difftap.2' rule, no drc violation even though spacing < 0.42u:<br/>
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/diff_2.png)
 <br/><br/>The periphery rules for poly.9 as mentioned by sky130PDK:<br/>
 ![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/rules_poly.png)
 
+<br/><br/>Fixing incorrectly implemented nwell.4 rule(no tapp present in nwell, i.e., untapped):<br/>
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/nwell_mag.png)
+<br/><br/>Adding untapped nwell, subtracting other tapped nwell and setting all variants to 'full' in the sky130A.tech file:<br/>
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/nwell_vi_1.png)
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/nwell_vi_2.png)
+<br/><br/>The periphery rules for nwell.4 as mentioned by sky130PDK:<br/>
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/nwell.4_rules.png)
+<br/><br/>Run these commands in the tkcon window:<br/>
+Loading updated tech file: ```tech load sky130A.tech```<br/>
+Re-running DRC check to see updated DRC errors: ```drc check```<br/>
+Select the space, and getting the error messages ```drc why```<br/>
+<br/>Checking the nwell mag file:<br/>
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/nwell_check.png)

@@ -244,3 +244,28 @@ Converting the .ext to .spice: ```ext2spice```<br/><br/>
 ![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/inv_spice.png)
 <br/><br/>Run the extracted spice model: ```ngspice sky130_inv.spice```<br/>
 ![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/spice_run.png)
+<br/><br/>To plot the characteristics of output and input waveforms with respect to time: ```plot y vs time a```<br/>
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/y_vs_a_plot.png)
+<br/><br/>From this plot we can calculate various parameters related to timings and delays of the CMOS inverter characteristics.<br/><br/>
+Characterizing the parameters:<br/><br/>
+Rise Time: The time taken for the output waveform to transition from 20% to 80% of its maximum value.<br/>
+Using data points:<br/>
+x0 = 2.18257e-09, y0 = 0.66<br/>
+x1 = 2.24684e-09, y1 = 2.64<br/>
+Rise time = x1 - x0 = 0.06427 ns<br/><br/>
+Fall Time: The time taken for the output waveform to transition from 80% to 20% of its maximum value.<br/>
+Using data points:<br/>
+x0 = 4.07995e-09, y0 = 2.64<br/>
+x1 = 4.09524e-09, y1 = 0.66<br/>
+Fall time = x1 - x0 = 0.01529 ns<br/><br/>
+Propagation Delay: The time taken for a 50% transition at the output(low to high) corresponding to a 50% transition at the input(high to low).<br/>
+Using data points:<br/>
+x0 = 2.21153e-09, y0 = 1.65018<br/>
+x1 = 2.14988e-09, y1 = 1.65018<br/>
+Propagation delay = x1 - x0 = 0.06165 ns<br/><br/>
+Cell Fall Delay: The time taken for a 50% transition at the output(high to low) corresponding to a 50% transition at the input(low to high).<br/>
+Using data points:<br/>
+x0 = 4.078e-09, y0 = 1.65007<br/>
+x1 = 4.05e-09, y1 = 1.65007<br/>
+Cell fall delay = x1 - x0 = 0.028 ns<br/><br/>
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/time_n_delay.png)

@@ -246,6 +246,7 @@ Converting the .ext to .spice: ```ext2spice```<br/><br/>
 ![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/spice_run.png)
 <br/><br/>To plot the characteristics of output and input waveforms with respect to time: ```plot y vs time a```<br/>
 ![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/y_vs_a_plot.png)
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/time_n_delay.png)
 <br/><br/>From this plot we can calculate various parameters related to timings and delays of the CMOS inverter characteristics.<br/><br/>
 Characterizing the parameters:<br/><br/>
 Rise Time: The time taken for the output waveform to transition from 20% to 80% of its maximum value.<br/>
@@ -267,5 +268,4 @@ Cell Fall Delay: The time taken for a 50% transition at the output(high to low) 
 Using data points:<br/>
 x0 = 4.078e-09, y0 = 1.65007<br/>
 x1 = 4.05e-09, y1 = 1.65007<br/>
-Cell fall delay = x1 - x0 = 0.028 ns<br/><br/>
-![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/time_n_delay.png)
+Cell fall delay = x1 - x0 = 0.028 ns<br/>

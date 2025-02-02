@@ -288,9 +288,16 @@ Command to open magic tool in better graphics: ```magic -d XR```<br/><br/>
 ![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/poly_mag.png)
 <br/><br/>As zooming into the poly.9 and creating a box, we can see the errors and edit the sky130A.tech file to fix it. 
 ![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/poly_box.png)
-
 <br/><br/>By adding allpolynonres into the specified locations in the sky130A tech file, we can fix it.<br/>
 ![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/poly_vim_1.png)
 ![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/poly_vim_2.png)
+
+Run these commands in the tkcon window:<br/>
+Loading updated tech file: ```tech load sky130A.tech```<br/>
+Re-running DRC check to see updated DRC errors: ```drc check```<br/>
+Select the space, and getting the error messages ```drc why```<br/>
 <br/><br/>Checking the poly mag file:<br/>
 ![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/poly_check.png)
+<br/><br/>The periphery rules for poly.9 as mentioned by sky130PDK:<br/>
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/rules_poly.png)
+

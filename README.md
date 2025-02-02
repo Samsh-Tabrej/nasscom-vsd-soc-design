@@ -233,3 +233,14 @@ Screenshot of above commands in terminal.
 ![Screenshot of above commands in terminal](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/inv_git_clone.png)
 <br/>Layout of custom CMOS inverter in Magic.
 ![Layout of custom CMOS inverter in Magic](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/magic_inv.png)
+
+<br/>Extraction of the Spice file of inverter from Magic:<br/><br/>
+In the tkcon window type ```pwd``` to print working directory.<br/><br/>
+To extract into .ext format: ```extract all```<br/><br/>
+Before converting ext to spice, enable the parasitic extraction: ```ext2spice cthresh 0 rthresh 0```<br/><br/>
+Converting the .ext to .spice: ```ext2spice```<br/><br/>
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/tkcon_extract.png)
+<br/>Modify the spice model file for analysis, according to the libs file present.<br/>
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/inv_spice.png)
+<br/><br/>Run the extracted spice model: ```ngspice sky130_inv.spice```<br/>
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/spice_run.png)

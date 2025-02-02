@@ -316,3 +316,36 @@ Re-running DRC check to see updated DRC errors: ```drc check```<br/>
 Select the space, and getting the error messages ```drc why```<br/>
 <br/>Checking the nwell mag file:<br/>
 ![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/nwell_check.png)
+
+# Pre-layout timing analysis and importance of good clock tree
+Introduction to Delay Tables:<br/>
+Delay tables play a critical role in timing analysis by providing a detailed representation of how signals propagate through various circuit components. These tables contain information about the delay characteristics of standard cells, interconnects, and macros, helping designers predict signal arrival times accurately.
+
+<br/>Purpose of Delay Tables:<br/>
+In modern VLSI design, achieving precise timing closure is crucial to ensure the circuit operates correctly at the desired clock frequency. Delay tables contribute to this by:<br/>
+- Modeling propagation delays through logic gates and interconnects.
+- Assisting timing analysis tools in evaluating signal transitions.
+- Enabling optimization of placement and routing based on real-time delay estimations.
+
+<br/>During physical design, delay tables serve multiple functions:<br/>
+- Cell Characterization: Standard cells (such as NAND, NOR, and flip-flops) are characterized using delay tables based on factors like input transition time and output load capacitance.
+- Interconnect Modeling: Delays due to routing and parasitics are estimated using lookup tables derived from extracted parasitic data.
+- Static Timing Analysis (STA): Timing verification tools use delay tables to compute worst-case and best-case timing scenarios, ensuring that setup and hold requirements are met.
+
+<br/>Types of Delay Representation:<br/>
+- Library Characterization Data (Lib Files) – These include lookup tables (LUTs) that provide delays based on input slew and output capacitance.
+- Parasitic Delay Models (SPEF, RSPF) – Account for wire delays and coupling effects.
+- Propagation Delay Tables – Define delays for individual gates under different operating conditions.
+
+# DAY-4 LAB
+Commands to open the custom inverter layout<br/>
+Change directory to vsdstdcelldesign:
+```cd Desktop/work/tools/openlane_working_dir/openlane/vsdstdcelldesign```
+
+<br/>Command to open custom inverter layout in magic
+```magic -T sky130A.tech sky130_inv.mag &```
+<br/>Screenshot of tracks.info of sky130_fd_sc_hd:
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/tracks_info.png)
+<br/>Commands for tkcon window to set grid as tracks of locali layer
+<br/>Get syntax for grid command ```help grid```
+<br/>Set grid values accordingly ```grid 0.46um 0.34um 0.23um 0.17um```

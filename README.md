@@ -341,12 +341,9 @@ In modern VLSI design, achieving precise timing closure is crucial to ensure the
 - Propagation Delay Tables – Define delays for individual gates under different operating conditions.
 
 # DAY-4 LAB
-Commands to open the custom inverter layout<br/>
-Change directory to vsdstdcelldesign:
-```cd Desktop/work/tools/openlane_working_dir/openlane/vsdstdcelldesign```
-
-<br/>Command to open custom inverter layout in magic
-```magic -T sky130A.tech sky130_inv.mag &```
+Commands to open the custom inverter layout.<br/>
+Change directory to vsdstdcelldesign: ```cd Desktop/work/tools/openlane_working_dir/openlane/vsdstdcelldesign```
+<br/>Command to open custom inverter layout in magic: ```magic -T sky130A.tech sky130_inv.mag &```
 <br/>Screenshot of tracks.info of sky130_fd_sc_hd:<br/><br/>
 ![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/tracks_info.png)
 <br/>Commands for tkcon window to set grid as tracks of locali layer

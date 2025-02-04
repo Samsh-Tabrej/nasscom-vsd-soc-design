@@ -413,7 +413,7 @@ echo $::env(SYNTH_DRIVING_CELL)
 # Now that the design is prepped and ready, we can run synthesis using following command
 run_synthesis
 ```
-<br/><br/>Now, run the floorplan ```run_floorplan```<br/>
+<br/>Now, run the floorplan ```run_floorplan```<br/>
 ![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/fp_failed.png)
 <br/><br/>As in above case the floorplan is failed to execute, run the following command to succesfully run floorplan:
 ```

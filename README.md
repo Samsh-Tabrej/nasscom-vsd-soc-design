@@ -721,6 +721,6 @@ magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs
 
 <br/><br/>
 # Acknowledgements
-- Kunal Ghosh, Co-founder, VSD Corp.Pvt. Ltd.<br/>
-- Nickson P Jose, Physical Design Engineer, Intel Corporation.<br/>
+- Kunal Ghosh, Co-founder, VLSI System Design.<br/>
+- Nickson P Jose, Tachnical Lead, HCLTech.<br/>
 - R. Timothy Edwards, Senior Vice President of Analog and Design, Efabless Corporation.<br/>

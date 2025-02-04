@@ -435,4 +435,70 @@ tap_decap_or
 <br/><br/>Screenshot of the custom inverter successfully inserted in the placement<br/><br/>
 ![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/inv_in_plcmt.png)
 <br/><br/>To view the internal connections:<br/><br/>
-![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/expand_inv_plcmt.png)
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/expand_inv_plcmt.png)<br/>
+
+# Post-synthesis timing analysis with OpenSTA tool
+Newly created pre_sta.conf for STA analysis in openlane directory<br/>
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/pre_sta_conf.png)
+<br/><br/>Newly created my_base.sdc for STA analysis in picorv32a/src directory based on the file openlane/scripts/base.sdc<br/>
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/my_base_sdc.png)
+<br/><br/>The modified values like capacitance is taken from the libs file:<br/>
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/libs_inv_8.png)
+<br/>
+To run the Static Timing Analysis(STA) in other terminal:<br/>
+```
+\# Change directory to openlane
+cd Desktop/work/tools/openlane_working_dir/openlane
+
+\# Command to invoke OpenSTA tool with script
+sta pre_sta.conf
+```
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/sta1.png)
+We get a wns and slack violated value of -36.62 and tns value of -3854.15, which is very high.<br/><br/>
+Now, running the synthesis for minimized slack violation:<br/>
+```
+# prep design so as to update variables
+prep -design picorv32a -tag 24-03_10-03 -overwrite
+
+# Additional commands to include newly added lef to openlane flow merged.lef
+set lefs [glob $::env(DESIGN_DIR)/src/*.lef]
+add_lefs -src $lefs
+
+# Command to display current value of variable SYNTH_STRATEGY
+echo $::env(SYNTH_STRATEGY)
+
+# Command to set new value for SYNTH_STRATEGY
+set ::env(SYNTH_STRATEGY) "DELAY 3"
+
+# Command to display current value of variable SYNTH_BUFFERING
+echo $::env(SYNTH_BUFFERING)
+
+# Command to display current value of variable SYNTH_SIZING
+echo $::env(SYNTH_SIZING)
+
+# Command to set new value for SYNTH_SIZING
+set ::env(SYNTH_SIZING) 1
+
+# Command to display current value of variable SYNTH_DRIVING_CELL to check whether it's the proper cell or not
+echo $::env(SYNTH_DRIVING_CELL)
+
+# Command to set reduce MAX_FANOUT to 4
+echo $::env(SYNTH_MAX_FANOUT) 4
+
+# Now that the design is prepped and ready, we can run synthesis
+run_synthesis
+```
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/re_synth.png)
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/syn_results.png)
+<br/>Now the tns and wns value is minimized to 0.00.
+
+<br/>Again running STA to reduce slack violations by manually reducing delays:
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/sta_2.png)
+<br/><br/>Here we got the max delay as 0.81 (of '_02560_' net)
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/max_delay_net.png)
+<br/><br/>To reduce this delay we have to replace the cell under driver pins of desired net:
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/config_delays_sta.png)
+<br/><br/>Again running the STA and checking wether the maximum delay and slack is reduced:
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/sta_3.png)
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/max_delay_reduced.png)
+<br/><br/>As we can clearly see, the delay and slack is reduced by a significant factor.

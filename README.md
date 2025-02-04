@@ -664,7 +664,7 @@ echo \$::env(CTS_CLK_BUFFER_LIST)
 ![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/reinsert_clk_buf_1.png)
 
 # Final steps for RTL2GDS using tritonRoute and openSTA
-# DAY-4 LAB
+# DAY-5 LAB
 Generation of Power Distribution Network(PDN) and exploring the layout in Magic:
 ```
 # Change directory to openlane flow directory
@@ -693,6 +693,10 @@ gen_pdn
 ![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/pdn_info.png)
 <br/><br/>After running pdn, if we check CURRENT_DEF: ```echo  $::env(CURRENT_DEF)```, it is now changed from 'picorv32a.cts.def' to '17-pdn.def'<br/><br/>
 ![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/pdn_end_def.png)
+
+<br/><br/>Now run routing: ```run_routing```
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/0_violn_rout.png)
+i.e., zero violations while running the routing process.
 
 <br/><br/>Now to load the PDN DEF in Magic:
 ```

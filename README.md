@@ -508,7 +508,7 @@ run_synthesis
 <br/>Now, replace some more cells to increase the ports and reduce the salck:
 ![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/replace_cell1.png)
 ![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/new_slack_dec.png)
-<br/><br/> Initially the wns & slack violtion was -36.62 and tns was -3854.15, but now wns & slack violation is -3.82(~89.5% reduction) and tns is -326.38(~91.5% reduction).
+<br/><br/> Initially the wns & slack violation was -36.62 and tns was -3854.15, but now wns & slack violation is -3.82(~89.5% reduction) and tns is -326.38(~91.5% reduction).
 <br/><be/>Now, overwrite this verilog file on the previous picorv32a verilog file that we got by synthesis: 
 ```write_verilog /home/vsduser/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/31-01_17-10/results/synthesis/picorv32a.synthesis.v```
 <br/>Exit from OpenSTA: ```exit```
@@ -625,7 +625,7 @@ link_design picorv32a
 read_sdc /openLANE_flow/designs/picorv32a/src/my_base.sdc
 
 # Setting all cloks as propagated clocks
-set_propagated_clock \[all_clocks\]
+set_propagated_clock [all_clocks]
 
 # Generating custom timing report
 report_checks -path_delay min_max -fields {slew trans net cap input_pins} -format full_clock_expanded -digits 4
@@ -663,3 +663,54 @@ echo \$::env(CTS_CLK_BUFFER_LIST)
 <br/><br/>Screenshot of code implementation:
 ![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/reinsert_clk_buf_1.png)
 
+# Final steps for RTL2GDS using tritonRoute and openSTA
+# DAY-4 LAB
+Generation of Power Distribution Network(PDN) and exploring the layout in Magic:
+```
+# Change directory to openlane flow directory
+cd Desktop/work/tools/openlane_working_dir/openlane
+
+# Since we have aliased the long command to \'docker\' we can invoke the OpenLANE flow docker sub-system by just running this command
+docker
+
+# Now that we have entered the OpenLANE flow contained docker sub-system we can invoke the OpenLANE flow in the Interactive mode using
+the following command
+./flow.tcl -interactive
+
+# Now that OpenLANE flow is open we have to input the required packages for proper functionality of the OpenLANE flow
+package require openlane 0.9
+
+# Now we have to prep the design  
+prep -design picorv32a -tag 31-01_17-10
+
+# Check current def
+echo  $::env(CURRENT_DEF)
+
+# Now that CTS is done we can do power distribution network
+gen_pdn
+```
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/pdn_docker.png)
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/pdn_info.png)
+<br/><br/>After running pdn, if we check CURRENT_DEF: ```echo  $::env(CURRENT_DEF)```, it is now changed from 'picorv32a.cts.def' to '17-pdn.def'<br/><br/>
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/pdn_end_def.png)
+
+<br/><br/>Now to load the PDN DEF in Magic:
+```
+# Change directory to path containing generated PDN def
+cd Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/31-01_17_10/tmp/floorplan/
+
+# Command to load the PDN def in magic tool
+magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read 17-pdn.def &
+```
+<br/><br/>Screenshots of final PDN layout in Magic:
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/pnr1.png)
+<br/><br/>Zoomed_in:
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/pnr2.png)
+<br/><br/>Exploring the Layout and getting idea of design:
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/pnr3.png)
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/pnr4.png)
+<br/><br/>PDN def image:
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/pico_def.png)
+<br/><br/>Post-routing setup and hold STA report:
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/hold_fnl.png)
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/setup_fnl.png)

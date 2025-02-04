@@ -503,4 +503,163 @@ run_synthesis
 ![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/max_delay_reduced.png)
 <br/><br/>As we can clearly see, the delay and slack is reduced by a significant factor.
 <br/>To do basic timing ECO: ```report_checks -from _35312_ -to _35239_ -through _32503_```
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/timing_ECO.png)
+
+<br/>Now, replace some more cells to increase the ports and reduce the salck:
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/replace_cell1.png)
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/new_slack_dec.png)
+<br/><br/> Initially the wns & slack violtion was -36.62 and tns was -3854.15, but now wns & slack violation is -3.82(~89.5% reduction) and tns is -326.38(~91.5% reduction).
+<br/><be/>Now, overwrite this verilog file on the previous picorv32a verilog file that we got by synthesis: 
+```write_verilog /home/vsduser/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/31-01_17-10/results/synthesis/picorv32a.synthesis.v```
+<br/>Exit from OpenSTA: ```exit```
+Let's check whether our verilog file is being overwritten:
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/new_syn_verilog.png)
+<br/><br/>Checking cell 22390 that we changed recently, and got that it is being changed. Hence the verilog file is overwritten successfully.
+<br/>Now run floorplan```run_floorplan```, placement```run_placement``` and cts(clock tree synthesis) ```run_cts```.
+<br/><br/>Let's check some parameters like clock buffer list, root buffer, capacitance, etc based on the cts.tcl file:
+<br/><br/>Screenshot of cts.tcl file:
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/cts_tcl.png)
+<br/><br/>Screenshot of displaying parameters and invoking openROAD ```openroad```.
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/openroad.png)
+
+# Post-CTS OpenROAD timing analysis
+The commands required to succesfully implement OpenROAD:
+```
+# Command to run OpenROAD tool
+openroad
+
+# Reading lef file
+read_lef /openLANE_flow/designs/picorv32a/runs/31-01_17-10/tmp/merged.lef
+
+# Reading def file
+read_def /openLANE_flow/designs/picorv32a/runs/31-01_17-10/results/cts/picorv32a.cts.def
+
+# Creating an OpenROAD database to work with
+write_db pico_cts.db
+
+# Loading the created database in OpenROAD
+read_db pico_cts.db
+
+# Read netlist post CTS
+read_verilog /openLANE_flow/designs/picorv32a/runs/31-01_17-10/results/synthesis/picorv32a.synthesis_cts.v
+
+# Read library for design
+read_liberty $::env(LIB_SYNTH_COMPLETE)
+
+# Link design and library
+link_design picorv32a
+
+# Read in the custom sdc we created
+read_sdc /openLANE_flow/designs/picorv32a/src/my_base.sdc
+
+# Setting all clocks as propagated clocks
+set_propagated_clock \[all_clocks\]
+
+# Check syntax of \'report_checks\' command
+help report_checks
+
+# Generating custom timing report
+report_checks -path_delay min_max -fields {slew trans net cap input_pins} -format full_clock_expanded -digits 4
+
+# Exit to OpenLANE flow
+exit
+```
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/openroad_cmds.png)
+<br/><br/>This will generate a hold and a setup report:
+<br/>Screenshot of Hold report:
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/hold_report.png)
+<br/><br/>Screenshuot of Setup report
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/setup_report.png)
+<br/><br/>Inboth the cases the timing slack is 'MET' and not violated.
+<br/>But we can improve the slack even more, even though it has negative effect like increase in area. We can reduce the slack by removing the 'clkbuf_1' from the buffer list.
+```
+# Checking current value of \'CTS_CLK_BUFFER_LIST\'
+echo \$::env(CTS_CLK_BUFFER_LIST)
+
+# Removing \'sky130_fd_sc_hd\_\_clkbuf_1\' from the list
+set ::env(CTS_CLK_BUFFER_LIST) \[lreplace \$::env(CTS_CLK_BUFFER_LIST) 0 0\]
+
+# Checking current value of \'CTS_CLK_BUFFER_LIST\'
+echo \$::env(CTS_CLK_BUFFER_LIST)
+
+# Checking current value of \'CURRENT_DEF\'
+echo \$::env(CURRENT_DEF)
+
+# Setting def as placement def
+set ::env(CURRENT_DEF)/openLANE_flow/designs/picorv32a/runs/17-01_14-04/results/placement/picorv32a.placement.def
+
+# Run CTS again
+run_cts
+
+# Checking current value of \'CTS_CLK_BUFFER_LIST\'
+echo \$::env(CTS_CLK_BUFFER_LIST)
+```
+<br/><br/>Screenshot of code implementation:
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/run_new_cts.png)
+```
+# Command to run OpenROAD tool
+openroad
+
+# Reading lef file
+read_lef /openLANE_flow/designs/picorv32a/runs/17-01_14-04/tmp/merged.lef
+
+# Reading def file
+read_def /openLANE_flow/designs/picorv32a/runs/17-01_14-04/results/cts/picorv32a.cts.def
+
+# Creating an OpenROAD database to work with
+write_db pico_cts1.db
+
+# Loading the created database in OpenROAD
+read_db pico_cts.db
+
+# Read netlist post CTS
+read_verilog /openLANE_flow/designs/picorv32a/runs/17-01_14-04/results/synthesis/picorv32a.synthesis_cts.v
+
+# Read library for design
+read_liberty \$::env(LIB_SYNTH_COMPLETE)
+
+# Link design and library
+link_design picorv32a
+
+# Read in the custom sdc we created
+read_sdc /openLANE_flow/designs/picorv32a/src/my_base.sdc
+
+# Setting all cloks as propagated clocks
+set_propagated_clock \[all_clocks\]
+
+# Generating custom timing report
+report_checks -path_delay min_max -fields {slew trans net cap input_pins} -format full_clock_expanded -digits 4
+
+# Report hold skew
+report_clock_skew -hold
+
+# Report setup skew
+report_clock_skew -setup
+
+# Exit to OpenLANE flow
+exit
+```
+<br/><br/>Screenshot of code implementation:
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/new_openroad.png)
+
+<br/><br/>New setup and hold reports:
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/new_hold.png)
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/new_setup.png)
+
+<br/><br/>It can be clearly noted that the setup has improved by 5.9ps and the hold has improved by 738.2ps which is quite significant.
+
+<br/><br/>We can reinsert the clkbuf_1 into the buffer list after the openroad implementation:
+```
+# Checking current value of \'CTS_CLK_BUFFER_LIST\'
+echo \$::env(CTS_CLK_BUFFER_LIST)
+
+# Inserting \'sky130_fd_sc_hd\_\_clkbuf_1\' to first index of list
+set ::env(CTS_CLK_BUFFER_LIST) \[linsert \$::env(CTS_CLK_BUFFER_LIST) 0
+sky130_fd_sc_hd\_\_clkbuf_1\]
+
+# Checking current value of \'CTS_CLK_BUFFER_LIST\'
+echo \$::env(CTS_CLK_BUFFER_LIST)
+```
+<br/><br/>Screenshot of code implementation:
+![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/reinsert_clk_buf_1.png)
 

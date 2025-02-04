@@ -718,3 +718,9 @@ magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs
 <br/><br/>Post-routing setup and hold STA report:
 ![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/hold_fnl.png)
 ![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/setup_fnl.png)
+
+<br/><br/>
+# Acknowledgements
+- Kunal Ghosh, Co-founder, VSD Corp.Pvt. Ltd.<br/>
+- Nickson P Jose, Physical Design Engineer, Intel Corporation.<br/>
+- R. Timothy Edwards, Senior Vice President of Analog and Design, Efabless Corporation.<br/>

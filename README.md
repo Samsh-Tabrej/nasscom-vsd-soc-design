@@ -502,3 +502,5 @@ run_synthesis
 ![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/sta_3.png)
 ![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/max_delay_reduced.png)
 <br/><br/>As we can clearly see, the delay and slack is reduced by a significant factor.
+<br/>To do basic timing ECO: ```report_checks -from _35312_ -to _35239_ -through _32503_```
+

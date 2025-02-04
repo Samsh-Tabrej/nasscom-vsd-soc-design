@@ -136,8 +136,8 @@ Hence, the core has a square shape.<br/>
 <br/>Now, after adding pre-placed cells, decoupling capacitors, power planning and pin placement the corresponding floorplan will look like:<br/>
 ![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/fp_concepts.png)
 
-# DAY-2 LAB
 # Running Floorplan using OpenLANE
+# DAY-2 LAB
 After running Synthesis, now it's time to run the Floorplan. To run floorplan in openLANE flow:
 ```
 run_floorplan
@@ -226,8 +226,8 @@ Timing characterization in VLSI design refers to the process of analyzing and mo
 - Output Low Threshold (out_low_thr): The voltage threshold used to measure falling transitions at the output.
 ![](https://github.com/Samsh-Tabrej/nasscom-vsd-soc-design/blob/main/media/timing_slew.png)
 
-# DAY-3 LAB
 # Design library cell using Magic Layout and ngspice characterization
+# DAY-3 LAB
 Let us clone a custom inverter standard cell from a github repository and explore its layout in Magic.<br/><br/>
 #clone the repo inside openlane directory ```git clone https://github.com/nickson-jose/vsdstdcelldesign```<br/><br/>
 #copy the path of sky130.tech file into the vsdstdcelldesign directory ```cp sky130A.tech /home/vsduser/Desktop/work/tools/openlane_working_dir/openlane/vsdstdcelldesign```<br/><br/>
@@ -722,5 +722,5 @@ magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs
 <br/><br/>
 # Acknowledgements
 - Kunal Ghosh, Co-founder, VLSI System Design.<br/>
-- Nickson P Jose, Tachnical Lead, HCLTech.<br/>
+- Nickson P Jose, Technical Lead, HCLTech.<br/>
 - R. Timothy Edwards, Senior Vice President of Analog and Design, Efabless Corporation.<br/>
